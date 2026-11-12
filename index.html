@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hard Dizayn — Tashqi va ichki reklama</title>
+<meta name="description" content="Hard Dizayn — Urganchdagi reklama agentligi. Tashqi va ichki reklama.">
+<meta name="theme-color" content="#0f1729">
+<style>
+  :root{
+    --navy:#0f1729; --navy2:#16213a; --red:#e3262f; --red2:#c41d25;
+    --text:#f4f6fb; --muted:#a8b0c3; --line:rgba(255,255,255,.1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+    background:radial-gradient(120% 60% at 50% 0%, #1d2a4a 0%, var(--navy) 60%)}
+  .wrap{width:100%;max-width:480px;padding:20px 18px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;flex:1}
+
+  header{display:flex;align-items:center;justify-content:center;gap:10px;padding-top:6px}
+  header img{height:38px;width:auto;display:block}
+  .brand-text{font-weight:800;letter-spacing:.06em;font-size:20px}
+  .brand-text b{color:var(--red)}
+
+  .video-box{position:relative;width:100%;aspect-ratio:9/16;max-height:60vh;max-height:60dvh;margin:0 auto;border-radius:20px;overflow:hidden;
+    background:#000;border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+  .video-box video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+  .sound{position:absolute;right:12px;bottom:12px;border:0;border-radius:999px;padding:9px 14px;font-size:14px;font-weight:600;
+    background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer}
+  .no-video{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--muted);font-size:15px;line-height:1.5}
+
+  .btns{display:flex;flex-direction:column;gap:12px;margin-top:2px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;border-radius:16px;border:0;
+    font-size:18px;font-weight:700;text-decoration:none;cursor:pointer;transition:transform .08s ease, filter .15s}
+  .btn:active{transform:scale(.98)}
+  .btn svg{width:22px;height:22px;flex:none}
+  .btn-lead{background:#fff;color:var(--navy)}
+  .btn-call{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(227,38,47,.4);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 10px 26px rgba(227,38,47,.35)}50%{box-shadow:0 10px 34px rgba(227,38,47,.7)}}
+
+  footer{margin-top:auto;text-align:center;color:var(--muted);font-size:13px;line-height:1.6;padding-top:8px}
+  footer a{color:var(--text);text-decoration:none;font-weight:600}
+
+  /* Forma oynasi */
+  .sheet-bg{position:fixed;inset:0;background:rgba(5,9,20,.7);display:none;align-items:flex-end;justify-content:center;z-index:10}
+  .sheet-bg.open{display:flex}
+  .sheet{width:100%;max-width:480px;background:var(--navy2);border-radius:22px 22px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line);animation:up .22s ease}
+  @keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+  .sheet h2{font-size:21px;margin-bottom:4px}
+  .sheet p.sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  .field input{width:100%;height:52px;border-radius:12px;border:1px solid var(--line);background:#0b1222;color:var(--text);
+    padding:0 14px;font-size:17px;outline:none}
+  .field input:focus{border-color:var(--red)}
+  .hp{position:absolute;left:-9999px;opacity:0}
+  .err{color:#ff8a8f;font-size:14px;min-height:18px;margin:2px 0 10px}
+  .close{float:right;background:none;border:0;color:var(--muted);font-size:26px;line-height:1;cursor:pointer}
+  .done{text-align:center;padding:18px 0 6px}
+  .done .ok{width:64px;height:64px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .done .ok svg{width:34px;height:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <!-- Logo: shu papkaga logo.png faylini qo'ying -->
+    <img src="logo.png" alt="Hard Dizayn" onerror="this.style.display='none';document.getElementById('brandText').style.display='block'">
+    <div class="brand-text" id="brandText" style="display:none"><b>HARD</b> DIZAYN</div>
+  </header>
+
+  <div class="video-box">
+    <!-- Video: shu papkaga video.mp4 faylini qo'ying -->
+    <video id="vid" src="video.mp4" poster="poster.jpg" autoplay muted loop playsinline preload="auto"></video>
+    <button class="sound" id="soundBtn" type="button">🔇 Ovozni yoqish</button>
+    <div class="no-video" id="noVideo">Video shu yerda bo'ladi</div>
+  </div>
+
+  <div class="btns">
+    <button class="btn btn-lead" id="openForm" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      Nomeringizni qoldiring
+    </button>
+    <a class="btn btn-call" href="tel:+998970094797">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>
+      Hoziroq bog'lanish
+    </a>
+  </div>
+
+  <footer>
+    Hard Dizayn — tashqi va ichki reklama<br>
+    Urganch · <a href="tel:+998970094797">97 009 47 97</a> · <a href="https://instagram.com/hard_dizayn" target="_blank" rel="noopener">@hard_dizayn</a>
+  </footer>
+</div>
+
+<!-- Raqam qoldirish oynasi -->
+<div class="sheet-bg" id="sheetBg">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <button class="close" id="closeForm" type="button" aria-label="Yopish">×</button>
+    <div id="formView">
+      <h2 id="formTitle">Nomeringizni qoldiring</h2>
+      <p class="sub">Mutaxassisimiz tez orada siz bilan bog'lanadi</p>
+      <form id="leadForm" novalidate>
+        <div class="field">
+          <label for="name">Ismingiz</label>
+          <input id="name" name="name" autocomplete="name" placeholder="Masalan: Jasur" maxlength="60">
+        </div>
+        <div class="field">
+          <label for="phone">Telefon raqamingiz</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998 90 123 45 67" maxlength="20">
+        </div>
+        <div class="field">
+          <label for="business">Biznesingiz nima?</label>
+          <input id="business" name="business" placeholder="Masalan: kafe, do'kon, klinika" maxlength="100">
+        </div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="err" id="err"></div>
+        <button class="btn btn-call" id="sendBtn" type="submit" style="animation:none">Yuborish</button>
+      </form>
+    </div>
+    <div class="done" id="doneView" style="display:none">
+      <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h2>Rahmat!</h2>
+      <p class="sub" style="margin-top:6px">Ma'lumotingiz qabul qilindi. Tez orada qo'ng'iroq qilamiz.</p>
+      <button class="btn btn-lead" id="doneClose" type="button" style="margin-top:8px">Yopish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- Telegram bot sozlamasi ---
+  const TG_TOKEN = '8850354919:AAEw3i_CeaYLlFSXDH2QrRyRQmduKEpAUIs';
+  const TG_CHAT_ID = '8842148990';
+
+  // --- Video ---
+  const vid = document.getElementById('vid');
+  const soundBtn = document.getElementById('soundBtn');
+  vid.addEventListener('error', () => {
+    document.getElementById('noVideo').style.display = 'flex';
+    soundBtn.style.display = 'none';
+  });
+  soundBtn.addEventListener('click', () => {
+    vid.muted = !vid.muted;
+    if (!vid.muted) { vid.currentTime = 0; vid.play().catch(()=>{}); }
+    soundBtn.textContent = vid.muted ? '🔇 Ovozni yoqish' : '🔊 Ovozni o‘chirish';
+  });
+
+  // --- Forma ---
+  const bg = document.getElementById('sheetBg');
+  const form = document.getElementById('leadForm');
+  const err = document.getElementById('err');
+  const sendBtn = document.getElementById('sendBtn');
+  const phone = document.getElementById('phone');
+
+  function openForm(){ bg.classList.add('open'); setTimeout(()=>document.getElementById('name').focus(), 150); }
+  function closeForm(){ bg.classList.remove('open'); }
+  document.getElementById('openForm').onclick = openForm;
+  document.getElementById('closeForm').onclick = closeForm;
+  document.getElementById('doneClose').onclick = closeForm;
+  bg.addEventListener('click', e => { if (e.target === bg) closeForm(); });
+
+  phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+998 '; });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    err.textContent = '';
+    const name = form.name.value.trim();
+    const business = form.business.value.trim();
+    const digits = phone.value.replace(/\D/g, '');
+    if (name.length < 2) return err.textContent = 'Ismingizni yozing';
+    if (digits.length < 9) return err.textContent = 'Telefon raqamini to‘liq yozing';
+    if (business.length < 2) return err.textContent = 'Biznesingiz nima ekanini yozing';
+
+    if (form.website.value) return; // spam bot tuzog'i
+
+    sendBtn.disabled = true; sendBtn.textContent = 'Yuborilmoqda...';
+    try {
+      const esc = s => s.replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+      const time = new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Tashkent' });
+      const text =
+        '🆕 <b>Yangi mijoz (vizitkadan)</b>\n\n' +
+        '👤 <b>Ism:</b> ' + esc(name) + '\n' +
+        '📞 <b>Telefon:</b> ' + esc(phone.value.trim()) + '\n' +
+        '🏢 <b>Biznesi:</b> ' + esc(business) + '\n\n' +
+        '🕒 ' + time;
+      const body = new URLSearchParams({ chat_id: TG_CHAT_ID, text, parse_mode: 'HTML' });
+      const r = await fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', { method: 'POST', body });
+      const j = await r.json();
+      if (!j.ok) throw new Error();
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('doneView').style.display = 'block';
+      form.reset();
+    } catch {
+      err.textContent = 'Yuborilmadi. Iltimos, qo‘ng‘iroq qiling: 97 009 47 97';
+    } finally {
+      sendBtn.disabled = false; sendBtn.textContent = 'Yuborish';
+    }
+  });
+</script>
+</body>
+</html>
